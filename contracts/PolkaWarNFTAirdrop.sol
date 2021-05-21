@@ -3,21 +3,28 @@ pragma solidity >=0.6.0;
 import "@openzeppelin/contracts/ownership/Ownable.sol";
 import "./ReentrancyGuard.sol";
 import "./PolkaWarItemSystem.sol";
+import "./PolkaWar.sol";
 import "@chainlink/contracts/src/v0.6/VRFConsumerBase.sol";
 
 contract PolkaWarNFTAirdrop is Ownable, ReentrancyGuard, VRFConsumerBase {
     string public name = "PolkaWar: PolkaWarNFTAirdrop";
-    uint256 public tokenCounter;
+
+    uint256 public itemIndexCounter;
     PolkaWarItemSystem itemSystem;
+    PolkaWar polkaWar;
+
+    uint256 claimDate;
+    uint256 amountToken;
+
     //list airdrop item
 
-    mapping(uint256 => string) public airdropItems;//id - uri
+    mapping(uint256 => string) internal airdropItems; //id - uri
+
+    mapping(address => uint256) internal participants; //user-tokenid
 
     // add other things
-    mapping(bytes32 => address) public requestIdToSender;
-    mapping(bytes32 => string) public requestIdToTokenURI;
-    mapping(uint256 => Breed) public tokenIdToBreed;
-    mapping(bytes32 => uint256) public requestIdToTokenId;
+    mapping(bytes32 => address) internal requestIdToSender;
+
     event requestedGetAirdrop(bytes32 indexed requestId);
 
     bytes32 internal keyHash;
@@ -27,32 +34,59 @@ contract PolkaWarNFTAirdrop is Ownable, ReentrancyGuard, VRFConsumerBase {
         address _VRFCoordinator,
         address _LinkToken,
         bytes32 _keyhash,
-       PolkaWarItemSystem _itemSystem
+        PolkaWarItemSystem _itemSystem,
+        PolkaWar _polkaWar
     ) public VRFConsumerBase(_VRFCoordinator, _LinkToken) {
-        tokenCounter = 0;
+        itemIndexCounter = 0;
         keyHash = _keyhash;
         fee = 0.1 * 10**18;
-        LINK = LinkTokenInterface(_LinkToken);
-        itemSystem=_itemSystem;
-    }
-    
-    public initItems(string memory imageHash,string memory uriHash) public onlyOwner{
-        airdropItems[imageHash]=uriHash;
-    }
-
-    public getItemURI(string memory hash) public view returns(string){
-        return airdropItems[hash];
+        //LINK = LinkTokenInterface(_LinkToken);
+        itemSystem = _itemSystem;
+        polkaWar = _polkaWar;
+        claimDate = 1625097600; //1 july
+        amountToken = 25000000000000000000;
     }
 
-    function getAirdrop(uint256 userProvidedSeed)
+    function chageClaimDate(uint256 _claimDate) public onlyOwner {
+        claimDate = _claimDate;
+    }
+
+    function chageAmountToken(uint256 _amountToken) public onlyOwner {
+        amountToken = _amountToken;
+    }
+
+    function initItems(string memory uriHash) public onlyOwner {
+        airdropItems[++itemIndexCounter] = uriHash;
+    }
+
+    function getItemURI(uint256 index) public view returns (string memory) {
+        return airdropItems[index];
+    }
+
+    function isJoinAirdrop(address user) public view returns (uint256) {
+        return participants[user];
+    }
+
+    function claimAirdrop() public {
+        require(block.timestamp > claimDate, "not on time");
+        polkaWar.transfer(msg.sender, amountToken);
+    }
+
+    function getAirdrop(string memory userProvidedSeed)
         public
         returns (bytes32)
     {
-        require(LINK.balanceOf(address(this)) > fee, "Not enough LINK - deposit LINK to contract first");
-        uint256 seed = uint256(keccak256(abi.encode(userProvidedSeed, blockhash(block.number)))); 
+        require(isJoinAirdrop(msg.sender) == 0, "already joined airdrop");
+        require(
+            LINK.balanceOf(address(this)) > fee,
+            "Not enough LINK - deposit LINK to contract first"
+        );
+        uint256 seed =
+            uint256(
+                keccak256(abi.encode(userProvidedSeed, blockhash(block.number)))
+            );
         bytes32 requestId = requestRandomness(keyHash, fee, seed);
         requestIdToSender[requestId] = msg.sender;
-        requestIdToTokenURI[requestId] = tokenURI;
         emit requestedGetAirdrop(requestId);
     }
 
@@ -60,22 +94,12 @@ contract PolkaWarNFTAirdrop is Ownable, ReentrancyGuard, VRFConsumerBase {
         internal
         override
     {
-        address dogOwner = requestIdToSender[requestId];
-        string memory tokenURI = requestIdToTokenURI[requestId];
-        uint256 newItemId = tokenCounter;
-        _safeMint(dogOwner, newItemId);
-        _setTokenURI(newItemId, tokenURI);
-        Breed breed = Breed(randomNumber % 3);
-        tokenIdToBreed[newItemId] = breed;
-        requestIdToTokenId[requestId] = newItemId;
-        tokenCounter = tokenCounter + 1;
-    }
+        address user = requestIdToSender[requestId];
 
-    function setTokenURI(uint256 tokenId, string memory _tokenURI) public {
-        require(
-            _isApprovedOrOwner(_msgSender(), tokenId),
-            "ERC721: transfer caller is not owner nor approved"
-        );
-        _setTokenURI(tokenId, _tokenURI);
+        uint256 randomItemIndex = randomNumber % itemIndexCounter;
+        string storage uriItem = airdropItems[randomItemIndex];
+
+        uint256 tokenId = itemSystem.createItem(user, uriItem);
+        participants[user] = tokenId;
     }
 }
