@@ -84,8 +84,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -128,8 +127,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -173,8 +171,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -235,8 +232,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -249,8 +245,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -263,8 +258,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -354,7 +348,7 @@
         "id": 2,
         "nodeType": "ImportDirective",
         "scope": 29,
-        "sourceUnit": 1703,
+        "sourceUnit": 1721,
         "src": "26:55:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -365,7 +359,7 @@
         "id": 3,
         "nodeType": "ImportDirective",
         "scope": 29,
-        "sourceUnit": 1737,
+        "sourceUnit": 1755,
         "src": "83:63:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -376,7 +370,7 @@
         "id": 4,
         "nodeType": "ImportDirective",
         "scope": 29,
-        "sourceUnit": 1795,
+        "sourceUnit": 1813,
         "src": "148:63:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -391,10 +385,10 @@
               "id": 5,
               "name": "ERC20",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1702,
+              "referencedDeclaration": 1720,
               "src": "236:5:0",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC20_$1702",
+                "typeIdentifier": "t_contract$_ERC20_$1720",
                 "typeString": "contract ERC20"
               }
             },
@@ -409,10 +403,10 @@
               "id": 7,
               "name": "ERC20Detailed",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1794,
+              "referencedDeclaration": 1812,
               "src": "243:13:0",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC20Detailed_$1794",
+                "typeIdentifier": "t_contract$_ERC20Detailed_$1812",
                 "typeString": "contract ERC20Detailed"
               }
             },
@@ -427,10 +421,10 @@
               "id": 9,
               "name": "ERC20Burnable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1736,
+              "referencedDeclaration": 1754,
               "src": "258:13:0",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC20Burnable_$1736",
+                "typeIdentifier": "t_contract$_ERC20Burnable_$1754",
                 "typeString": "contract ERC20Burnable"
               }
             },
@@ -440,11 +434,11 @@
           }
         ],
         "contractDependencies": [
-          828,
-          1702,
-          1736,
-          1794,
-          1863
+          846,
+          1720,
+          1754,
+          1812,
+          1881
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -452,11 +446,11 @@
         "id": 28,
         "linearizedBaseContracts": [
           28,
-          1736,
-          1794,
-          1702,
-          1863,
-          828
+          1754,
+          1812,
+          1720,
+          1881,
+          846
         ],
         "name": "PolkaWar",
         "nodeType": "ContractDefinition",
@@ -529,7 +523,7 @@
                       "name": "_mint",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1563,
+                      "referencedDeclaration": 1581,
                       "src": "393:5:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_uint256_$returns$__$",
@@ -626,10 +620,10 @@
                   "name": "ERC20Detailed",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1794,
+                  "referencedDeclaration": 1812,
                   "src": "339:13:0",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_ERC20Detailed_$1794_$",
+                    "typeIdentifier": "t_type$_t_contract$_ERC20Detailed_$1812_$",
                     "typeString": "type(contract ERC20Detailed)"
                   }
                 },
@@ -718,7 +712,7 @@
       },
       {
         "attributes": {
-          "SourceUnit": 1703,
+          "SourceUnit": 1721,
           "absolutePath": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
           "file": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
           "scope": 29,
@@ -733,7 +727,7 @@
       },
       {
         "attributes": {
-          "SourceUnit": 1737,
+          "SourceUnit": 1755,
           "absolutePath": "@openzeppelin/contracts/token/ERC20/ERC20Burnable.sol",
           "file": "@openzeppelin/contracts/token/ERC20/ERC20Burnable.sol",
           "scope": 29,
@@ -748,7 +742,7 @@
       },
       {
         "attributes": {
-          "SourceUnit": 1795,
+          "SourceUnit": 1813,
           "absolutePath": "@openzeppelin/contracts/token/ERC20/ERC20Detailed.sol",
           "file": "@openzeppelin/contracts/token/ERC20/ERC20Detailed.sol",
           "scope": 29,
@@ -765,22 +759,22 @@
         "attributes": {
           "abstract": false,
           "contractDependencies": [
-            828,
-            1702,
-            1736,
-            1794,
-            1863
+            846,
+            1720,
+            1754,
+            1812,
+            1881
           ],
           "contractKind": "contract",
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
             28,
-            1736,
-            1794,
-            1702,
-            1863,
-            828
+            1754,
+            1812,
+            1720,
+            1881,
+            846
           ],
           "name": "PolkaWar",
           "scope": 29
@@ -795,7 +789,7 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "ERC20",
-                  "referencedDeclaration": 1702,
+                  "referencedDeclaration": 1720,
                   "type": "contract ERC20"
                 },
                 "id": 5,
@@ -816,7 +810,7 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "ERC20Detailed",
-                  "referencedDeclaration": 1794,
+                  "referencedDeclaration": 1812,
                   "type": "contract ERC20Detailed"
                 },
                 "id": 7,
@@ -837,7 +831,7 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "ERC20Burnable",
-                  "referencedDeclaration": 1736,
+                  "referencedDeclaration": 1754,
                   "type": "contract ERC20Burnable"
                 },
                 "id": 9,
@@ -916,7 +910,7 @@
                       "overloadedDeclarations": [
                         null
                       ],
-                      "referencedDeclaration": 1794,
+                      "referencedDeclaration": 1812,
                       "type": "type(contract ERC20Detailed)",
                       "value": "ERC20Detailed"
                     },
@@ -1015,7 +1009,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1563,
+                              "referencedDeclaration": 1581,
                               "type": "function (address,uint256)",
                               "value": "_mint"
                             },
@@ -1162,7 +1156,7 @@
     }
   },
   "schemaVersion": "3.4.1",
-  "updatedAt": "2021-05-21T06:13:42.864Z",
+  "updatedAt": "2021-05-21T08:50:46.260Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

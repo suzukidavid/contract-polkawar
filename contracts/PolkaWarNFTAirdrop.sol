@@ -21,6 +21,7 @@ contract PolkaWarNFTAirdrop is Ownable, ReentrancyGuard, VRFConsumerBase {
     mapping(uint256 => string) internal airdropItems; //id - uri
 
     mapping(address => uint256) internal participants; //user-tokenid
+    address[] internal arrParticipants; //user-tokenid
 
     // add other things
     mapping(bytes32 => address) internal requestIdToSender;
@@ -63,6 +64,10 @@ contract PolkaWarNFTAirdrop is Ownable, ReentrancyGuard, VRFConsumerBase {
         return airdropItems[index];
     }
 
+    function getTotalPaticipants() public view returns (uint256) {
+        return arrParticipants.length;
+    }
+
     function isJoinAirdrop(address user) public view returns (uint256) {
         return participants[user];
     }
@@ -101,5 +106,6 @@ contract PolkaWarNFTAirdrop is Ownable, ReentrancyGuard, VRFConsumerBase {
 
         uint256 tokenId = itemSystem.createItem(user, uriItem);
         participants[user] = tokenId;
+        arrParticipants.push(user);
     }
 }
