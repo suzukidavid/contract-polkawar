@@ -15,6 +15,7 @@ contract PolkaWarNFTAirdrop is Ownable, ReentrancyGuard, VRFConsumerBase {
 
     uint256 claimDate;
     uint256 amountToken;
+    uint256 acceptCount;
 
     //list airdrop item
 
@@ -46,6 +47,11 @@ contract PolkaWarNFTAirdrop is Ownable, ReentrancyGuard, VRFConsumerBase {
         polkaWar = _polkaWar;
         claimDate = 1625097600; //1 july
         amountToken = 25000000000000000000;
+        acceptCount = 3000;
+    }
+
+    function changeAcceptCount(uint256 _acceptCount) public onlyOwner {
+        acceptCount = _acceptCount;
     }
 
     function chageClaimDate(uint256 _claimDate) public onlyOwner {
@@ -81,7 +87,12 @@ contract PolkaWarNFTAirdrop is Ownable, ReentrancyGuard, VRFConsumerBase {
         public
         returns (bytes32)
     {
+        require(
+            participants.length <= acceptCount,
+            "maximum 3000 participants"
+        );
         require(isJoinAirdrop(msg.sender) == 0, "already joined airdrop");
+
         require(
             LINK.balanceOf(address(this)) > fee,
             "Not enough LINK - deposit LINK to contract first"
