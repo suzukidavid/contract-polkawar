@@ -16,6 +16,7 @@ contract PolkaWarNFTAirdrop is Ownable, ReentrancyGuard, VRFConsumerBase {
     uint256 claimDate;
     uint256 amountToken;
     uint256 acceptCount;
+    uint256 endDate;
 
     //list airdrop item
 
@@ -41,13 +42,18 @@ contract PolkaWarNFTAirdrop is Ownable, ReentrancyGuard, VRFConsumerBase {
     ) public VRFConsumerBase(_VRFCoordinator, _LinkToken) {
         itemIndexCounter = 0;
         keyHash = _keyhash;
-        fee = 0.1 * 10**18;
+        fee = 0.2 * 10**18;
         //LINK = LinkTokenInterface(_LinkToken);
         itemSystem = _itemSystem;
         polkaWar = _polkaWar;
         claimDate = 1625097600; //1 july
         amountToken = 25000000000000000000;
         acceptCount = 3000;
+        endDate = 1623715200;
+    }
+
+    function changeEndDate(uint256 _endDate) public onlyOwner {
+        endDate = _endDate;
     }
 
     function changeAcceptCount(uint256 _acceptCount) public onlyOwner {
@@ -87,8 +93,9 @@ contract PolkaWarNFTAirdrop is Ownable, ReentrancyGuard, VRFConsumerBase {
         public
         returns (bytes32)
     {
+        require(block.timestamp < endDate, "airdrop already finished ");
         require(
-            participants.length <= acceptCount,
+            arrParticipants.length <= acceptCount,
             "maximum 3000 participants"
         );
         require(isJoinAirdrop(msg.sender) == 0, "already joined airdrop");
@@ -118,5 +125,9 @@ contract PolkaWarNFTAirdrop is Ownable, ReentrancyGuard, VRFConsumerBase {
         uint256 tokenId = itemSystem.createItem(user, uriItem);
         participants[user] = tokenId;
         arrParticipants.push(user);
+    }
+
+    function withdrawLinkBalance() public onlyOwner {
+        LINK.transfer(owner(), LINK.balanceOf(address(this)));
     }
 }
